@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 
 class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({super.key, required this.meal});
+  const MealDetailsScreen(
+      {super.key, required this.meal, required this.onToggleFav});
+  final void Function(Meal meal) onToggleFav;
   final Meal meal;
   @override
   Widget build(BuildContext context) {
@@ -11,6 +13,14 @@ class MealDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(meal.title),
+        actions: [
+          IconButton(
+            onPressed: () {
+              onToggleFav(meal);
+            },
+            icon: const Icon(Icons.favorite),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
