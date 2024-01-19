@@ -28,22 +28,35 @@ class MealDetailsScreen extends ConsumerWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(snackBarMsg),
-                  duration: const Duration(seconds: 1),
+                  duration: const Duration(milliseconds: 600),
                 ),
               );
             },
-            icon: Icon(isFavourite ? Icons.favorite : Icons.favorite_border),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Icon(
+                isFavourite ? Icons.favorite : Icons.favorite_border,
+                key: ValueKey(isFavourite),
+              ),
+              transitionBuilder: (child, animation) => ScaleTransition(
+                scale: Tween<double>(begin: 0, end: 1).animate(animation),
+                child: child,
+              ),
+            ),
           ),
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.network(
-            meal.imageUrl,
-            height: deviceHeight / 3,
-            width: double.infinity,
-            fit: BoxFit.cover,
+          Hero(
+            tag: meal.id,
+            child: Image.network(
+              meal.imageUrl,
+              height: deviceHeight / 3,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(
             height: 10,
